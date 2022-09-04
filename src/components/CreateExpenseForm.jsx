@@ -1,15 +1,27 @@
-import React from "react";
+import React, { useContext } from "react";
+import ExpenseContext from "./ExpenseContext";
 import { Button, DatePicker, Form, Input, Select, InputNumber } from "antd";
+import { useNavigate } from "react-router-dom";
+import { getUserId } from "./helper";
 
 const CreateExpenseForm = () => {
   const [form] = Form.useForm();
+  const { action, user } = useContext(ExpenseContext);
+  const navigate = useNavigate();
 
   const onReset = () => {
     form.resetFields();
   };
 
   const onFinish = (values) => {
-    console.log(values);
+    action.addExpense({
+      ...values,
+      date: values.date.format("DD/MM/YY"),
+      user_id: getUserId(user),
+      expense_id: Math.random().toString(16).slice(2),
+    });
+
+    navigate("/dashboard");
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -35,7 +47,7 @@ const CreateExpenseForm = () => {
     >
       <Form.Item
         label="Title"
-        name="Title"
+        name="title"
         rules={[
           {
             required: true,
@@ -48,7 +60,7 @@ const CreateExpenseForm = () => {
 
       <Form.Item
         name="category"
-        label="category"
+        label="Category"
         rules={[
           {
             required: true,
@@ -61,14 +73,20 @@ const CreateExpenseForm = () => {
           //   onChange={onGenderChange}
           allowClear
         >
-          <Option value="category 1">category 1</Option>
-          <Option value="category 2">category 2</Option>
-          <Option value="category 3">category 3</Option>
+          <Option key="category_1" value="category 1">
+            category 1
+          </Option>
+          <Option key="category_2" value="category 2">
+            category 2
+          </Option>
+          <Option key="category_3" value="category 3">
+            category 3
+          </Option>
         </Select>
       </Form.Item>
 
       <Form.Item
-        name="Date"
+        name="date"
         label="Date"
         rules={[
           {
@@ -77,11 +95,11 @@ const CreateExpenseForm = () => {
           },
         ]}
       >
-        <DatePicker />
+        <DatePicker format="DD/MM/YY" />
       </Form.Item>
 
       <Form.Item
-        name="Amount"
+        name="amount"
         label="Amount"
         rules={[
           {

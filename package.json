@@ -8,6 +8,7 @@
   "dependencies": {
     "@auth0/auth0-react": "^1.10.2",
     "antd": "^4.21.3",
+    "dotenv": "^16.0.2",
     "history": "5.0.0",
     "react": "17.0.0",
     "react-dom": "17.0.0",

@@ -1,10 +1,12 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Auth0Provider } from '@auth0/auth0-react';
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import { Auth0Provider } from "@auth0/auth0-react";
+
+// npm install dotenv --save
 
 const Auth0ProviderWithHistory = ({ children }) => {
-  const domain = 'dev-qynpx33e.us.auth0.com';
-  const clientId = 'W237n3N2mtPN7vNZInvvxdWcp79Dcb3l';
+  const domain = process.env.AUTH0_DOMAIN;
+  const clientId = process.env.AUTH0_CLIENT_ID;
 
   const navigate = useNavigate();
 
