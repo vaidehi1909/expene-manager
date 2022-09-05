@@ -1,26 +1,39 @@
 import React, { useContext } from "react";
 import ExpenseContext from "./ExpenseContext";
 import { Button, DatePicker, Form, Input, Select, InputNumber } from "antd";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getUserId } from "./helper";
+import moment from "moment";
 
-const CreateExpenseForm = () => {
+const ExpenseForm = (props) => {
+  let params = useParams();
   const [form] = Form.useForm();
-  const { action, user } = useContext(ExpenseContext);
+  const { state, action, user } = useContext(ExpenseContext);
   const navigate = useNavigate();
+  const userId = getUserId(user);
+  const userList = state.expenseList[`${userId}`] || [];
+  const initialValue = userList.find(
+    (ul) => ul.expense_id === params.expense_id
+  );
 
   const onReset = () => {
     form.resetFields();
   };
 
   const onFinish = (values) => {
-    action.addExpense({
-      ...values,
-      date: values.date.format("DD/MM/YY"),
-      user_id: getUserId(user),
-      expense_id: Math.random().toString(16).slice(2),
-    });
-
+    params.expense_id
+      ? action.updateExpense({
+          ...values,
+          date: values.date.format("DD/MM/YY"),
+          user_id: userId,
+          expense_id: params.expense_id,
+        })
+      : action.addExpense({
+          ...values,
+          date: values.date.format("DD/MM/YY"),
+          user_id: userId,
+          expense_id: Math.random().toString(16).slice(2),
+        });
     navigate("/dashboard");
   };
 
@@ -38,7 +51,10 @@ const CreateExpenseForm = () => {
         span: 7,
       }}
       initialValues={{
-        remember: true,
+        ...initialValue,
+        date: initialValue?.date
+          ? moment(initialValue?.date, "DD/MM/YY")
+          : moment(),
       }}
       form={form}
       onFinish={onFinish}
@@ -133,4 +149,4 @@ const CreateExpenseForm = () => {
   );
 };
 
-export default CreateExpenseForm;
+export default ExpenseForm;

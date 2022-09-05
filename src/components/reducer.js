@@ -27,8 +27,27 @@ const reducer = (state = initialState, action) => {
         ...state,
         expenseList: filterdExpenseList,
       };
+
+    case actions.ACTION_UPDATE_EXPENSE:
+      const updatedList = userList.reduce((acc, ul) => {
+        if (action.payload.expense_id === ul.expense_id) {
+          acc.push(action.payload);
+        } else {
+          acc.push(ul);
+        }
+        return acc;
+      }, []);
+      const upadtedExpenseList = {
+        ...state.expenseList,
+        [`${action.payload.user_id}`]: updatedList,
+      };
+      return {
+        ...state,
+        expenseList: upadtedExpenseList,
+      };
+    default:
+      return state;
   }
-  return state;
 };
 
 const getUserList = (state, action) => {

@@ -2,8 +2,7 @@ import React, { useReducer, useState } from "react";
 import Dashboard from "./Dashboard";
 import { Layout } from "antd";
 import { Route, Routes } from "react-router-dom";
-import CreateExpenseForm from "./CreateExpenseForm";
-import CreateExpenseForm from "./CreateExpenseForm";
+import ExpenseForm from "./ExpenseForm";
 import * as actions from "./constant";
 import reducer, { initialState } from "./reducer";
 import ExpenseContext from "./ExpenseContext";
@@ -23,6 +22,12 @@ const ExpenseLayout = () => {
       dispatch({
         type: actions.ACTION_DELETE_EXPENSE,
         payload: { user_id, expense_id },
+      });
+    },
+    updateExpense: (updatedExpense) => {
+      dispatch({
+        type: actions.ACTION_UPDATE_EXPENSE,
+        payload: updatedExpense,
       });
     },
   };
@@ -45,7 +50,11 @@ const ExpenseLayout = () => {
         <ExpenseContext.Provider value={{ state, action, user }}>
           <Routes>
             <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/expense/new" element={<CreateExpenseForm />} />
+            <Route path="/expense/new" element={<ExpenseForm />} />
+            <Route
+              path="/expense/:expense_id/update"
+              element={<ExpenseForm />}
+            />
           </Routes>
         </ExpenseContext.Provider>
       </div>

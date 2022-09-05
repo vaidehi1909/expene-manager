@@ -1,12 +1,16 @@
 import React, { useContext } from "react";
 import ExpenseContext from "./ExpenseContext";
-import { Table } from "antd";
+import { Table, Space, Divider } from "antd";
 import { getUserId } from "./helper";
+import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import { useNavigate } from "react-router-dom";
 
 const ExpenseTable = () => {
   const { state, user, action } = useContext(ExpenseContext);
   const userId = getUserId(user);
   const dataSource = state.expenseList[`${userId}`] || [];
+
+  const navigate = useNavigate();
 
   const columns = [
     {
@@ -36,15 +40,25 @@ const ExpenseTable = () => {
     },
     {
       title: "Action",
-      key: "deleteaction",
+      key: "action",
       render: (_, record) => (
-        <a
-          onClick={() => {
-            action.deleteExpense(userId, record.expense_id);
-          }}
-        >
-          Delete
-        </a>
+        <Space split={<Divider type="vertical" />}>
+          <a
+            onClick={() => {
+              navigate(`/expense/${record.expense_id}/update`);
+            }}
+          >
+            <EditOutlined />
+          </a>
+
+          <a
+            onClick={() => {
+              action.deleteExpense(userId, record.expense_id);
+            }}
+          >
+            <DeleteOutlined />
+          </a>
+        </Space>
       ),
     },
   ];
@@ -54,10 +68,6 @@ const ExpenseTable = () => {
       <Table dataSource={dataSource} columns={columns} />
     </>
   );
-  // return <div>yo456</div>
 };
 
 export default ExpenseTable;
-
-//https://reactjs.org/docs/hooks-reference.html#
-//https://codesandbox.io/s/to-do-k1fdz
