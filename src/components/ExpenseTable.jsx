@@ -5,10 +5,10 @@ import { getUserId } from "./helper";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 
-const ExpenseTable = () => {
-  const { state, user, action } = useContext(ExpenseContext);
+const ExpenseTable = (props) => {
+  const { user, action } = useContext(ExpenseContext);
   const userId = getUserId(user);
-  const dataSource = state.expenseList[`${userId}`] || [];
+  const dataSource = props.dataSource || [];
 
   const navigate = useNavigate();
 
