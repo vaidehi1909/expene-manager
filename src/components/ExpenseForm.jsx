@@ -4,6 +4,7 @@ import { Button, DatePicker, Form, Input, Select, InputNumber } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
 import { getUserId } from "./helper";
 import moment from "moment";
+import { DATE_FORMAT } from "./constant";
 
 const ExpenseForm = (props) => {
   let params = useParams();
@@ -16,6 +17,12 @@ const ExpenseForm = (props) => {
     (ul) => ul.expense_id === params.expense_id
   );
 
+  //  {
+  //   title: "xyz",
+  //   category: "category_1",
+  //   amount: 23,
+  // };
+
   const onReset = () => {
     form.resetFields();
   };
@@ -24,13 +31,13 @@ const ExpenseForm = (props) => {
     params.expense_id
       ? action.updateExpense({
           ...values,
-          date: values.date.format("DD/MM/YY"),
+          date: values.date.format(DATE_FORMAT),
           user_id: userId,
           expense_id: params.expense_id,
         })
       : action.addExpense({
           ...values,
-          date: values.date.format("DD/MM/YY"),
+          date: values.date.format(DATE_FORMAT),
           user_id: userId,
           expense_id: Math.random().toString(16).slice(2),
         });
@@ -53,7 +60,7 @@ const ExpenseForm = (props) => {
       initialValues={{
         ...initialValue,
         date: initialValue?.date
-          ? moment(initialValue?.date, "DD/MM/YY")
+          ? moment(initialValue?.date, DATE_FORMAT)
           : moment(),
       }}
       form={form}
@@ -111,7 +118,7 @@ const ExpenseForm = (props) => {
           },
         ]}
       >
-        <DatePicker format="DD/MM/YY" />
+        <DatePicker format={DATE_FORMAT} />
       </Form.Item>
 
       <Form.Item

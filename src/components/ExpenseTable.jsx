@@ -1,9 +1,16 @@
 import React, { useContext } from "react";
 import ExpenseContext from "./ExpenseContext";
-import { Table, Space, Divider } from "antd";
+import moment from "moment";
+import { Table, Space, Divider, DatePicker, Button } from "antd";
+const { RangePicker } = DatePicker;
 import { getUserId } from "./helper";
-import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import {
+  EditOutlined,
+  DeleteOutlined,
+  SearchOutlined,
+} from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
+import { DATE_FORMAT } from "./constant";
 
 const ExpenseTable = (props) => {
   const { user, action } = useContext(ExpenseContext);
@@ -37,6 +44,54 @@ const ExpenseTable = (props) => {
       title: "Date",
       dataIndex: "date",
       key: "date",
+      filterDropdown: ({
+        setSelectedKeys,
+        selectedKeys,
+        confirm,
+        clearFilters,
+      }) => (
+        <div style={{ padding: 8 }}>
+          <Space>
+            <RangePicker
+              format={DATE_FORMAT}
+              onChange={(e) => {
+                setSelectedKeys([e]);
+              }}
+              allowClear={true}
+            />
+          </Space>
+          <Space>
+            <Button
+              onClick={() => {
+                clearFilters();
+                confirm();
+              }}
+              size="small"
+              style={{ width: 90 }}
+            >
+              Reset
+            </Button>
+            <Button
+              type="link"
+              size="small"
+              onClick={() => {
+                confirm();
+              }}
+            >
+              Filter
+            </Button>
+          </Space>
+        </div>
+      ),
+
+      onFilter: (value, record) => {
+        return moment(record.date, DATE_FORMAT).isBetween(
+          value[0],
+          value[1],
+          "days",
+          "[]"
+        );
+      },
     },
     {
       title: "Action",
