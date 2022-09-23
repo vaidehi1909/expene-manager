@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import ExpenseContext from "./ExpenseContext";
 import moment from "moment";
-import { Table, Space, Divider, DatePicker, Button } from "antd";
+import { Table, Space, Divider, DatePicker, Button, InputNumber } from "antd";
 const { RangePicker } = DatePicker;
 import { getUserId } from "./helper";
 import {
@@ -39,6 +39,56 @@ const ExpenseTable = (props) => {
       title: "Amount",
       dataIndex: "amount",
       key: "amount",
+      filterDropdown: ({
+        setSelectedKeys,
+        selectedKeys,
+        confirm,
+        clearFilters,
+      }) => (
+        <div style={{ padding: 8 }}>
+          <Space>
+            <InputNumber
+              onChange={(e) => {
+                selectedKeys.length
+                  ? setSelectedKeys([{ ...selectedKeys[0], min: e }])
+                  : setSelectedKeys([...selectedKeys, { min: e }]);
+              }}
+            />
+            <InputNumber
+              onChange={(e) => {
+                selectedKeys.length
+                  ? setSelectedKeys([{ ...selectedKeys[0], max: e }])
+                  : setSelectedKeys([...selectedKeys, { max: e }]);
+              }}
+            />
+          </Space>
+          <Space>
+            <Button
+              onClick={() => {
+                clearFilters();
+                confirm();
+              }}
+              size="small"
+              style={{ width: 90 }}
+            >
+              Reset
+            </Button>
+            <Button
+              type="link"
+              size="small"
+              onClick={() => {
+                confirm();
+              }}
+            >
+              Filter
+            </Button>
+          </Space>
+        </div>
+      ),
+
+      onFilter: (value, record) => {
+        return record.amount >= value.min && record.amount <= value.max;
+      },
     },
     {
       title: "Date",
