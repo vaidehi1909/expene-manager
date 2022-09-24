@@ -2,10 +2,6 @@ import React, { useState } from "react";
 
 import { Button, Checkbox, Form, Input } from 'antd';
 
-//https://ant.design/components/layout/#components-layout-demo-fixed
-//https://codesandbox.io/s/23bdqi?file=/demo.js
-//https://ant.design/components/menu/#API
-
 
 const Login = () => {
     [success, setSuccess] = useState(false);

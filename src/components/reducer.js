@@ -1,35 +1,23 @@
 import * as actions from "./constant";
 
-export const initialState = { expenseList: {} };
+export const initialState = { expenseList: [], categoryList: [] };
 
 const reducer = (state = initialState, action) => {
-  const userList = getUserList(state, action);
   switch (action.type) {
     case actions.ACTION_ADD_EXPENSE:
-      const newList = userList
-        ? [...userList, action.payload]
-        : [action.payload];
-      const newExpenseList = {
-        ...state.expenseList,
-        [`${action.payload.user_id}`]: newList,
-      };
-      return { ...state, expenseList: newExpenseList };
+      return { ...state, expenseList: [...state.expenseList, action.payload] };
 
     case actions.ACTION_DELETE_EXPENSE:
-      const filteredList = userList.filter(
+      const filteredList = state.expenseList.filter(
         (ul) => ul.expense_id != action.payload.expense_id
       );
-      const filterdExpenseList = {
-        ...state.expenseList,
-        [`${action.payload.user_id}`]: filteredList,
-      };
       return {
         ...state,
-        expenseList: filterdExpenseList,
+        expenseList: filteredList,
       };
 
     case actions.ACTION_UPDATE_EXPENSE:
-      const updatedList = userList.reduce((acc, ul) => {
+      const updatedList = state.expenseList.reduce((acc, ul) => {
         if (action.payload.expense_id === ul.expense_id) {
           acc.push(action.payload);
         } else {
@@ -37,21 +25,14 @@ const reducer = (state = initialState, action) => {
         }
         return acc;
       }, []);
-      const upadtedExpenseList = {
-        ...state.expenseList,
-        [`${action.payload.user_id}`]: updatedList,
-      };
+
       return {
         ...state,
-        expenseList: upadtedExpenseList,
+        expenseList: updatedList,
       };
     default:
       return state;
   }
-};
-
-const getUserList = (state, action) => {
-  return state.expenseList[`${action.payload.user_id}`];
 };
 
 export default reducer;

@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 import ExpenseContext from "./ExpenseContext";
 import moment from "moment";
 import { Table, Space, Divider, DatePicker, Button, InputNumber } from "antd";
-const { RangePicker } = DatePicker;
 import { getUserId } from "./helper";
 import {
   EditOutlined,
@@ -11,6 +10,7 @@ import {
 } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { DATE_FORMAT } from "./constant";
+const { RangePicker } = DatePicker;
 
 const ExpenseTable = (props) => {
   const { user, action } = useContext(ExpenseContext);
@@ -158,7 +158,7 @@ const ExpenseTable = (props) => {
 
           <a
             onClick={() => {
-              action.deleteExpense(userId, record.expense_id);
+              action.deleteExpense(record.expense_id);
             }}
           >
             <DeleteOutlined />

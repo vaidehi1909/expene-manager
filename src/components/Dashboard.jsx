@@ -10,9 +10,8 @@ import { getUserId } from "./helper";
 const { Header, Content } = Layout;
 
 const Dashboard = () => {
-  const { state, user } = useContext(ExpenseContext);
-  const userId = getUserId(user);
-  const userList = state.expenseList[`${userId}`] || [];
+  const { state } = useContext(ExpenseContext);
+  const userList = state.expenseList || [];
   const [dataSource, setDataSource] = useState(userList);
 
   useEffect(() => {

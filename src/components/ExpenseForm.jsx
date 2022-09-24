@@ -12,7 +12,7 @@ const ExpenseForm = (props) => {
   const { state, action, user } = useContext(ExpenseContext);
   const navigate = useNavigate();
   const userId = getUserId(user);
-  const userList = state.expenseList[`${userId}`] || [];
+  const userList = state.expenseList || [];
   const initialValue = userList.find(
     (ul) => ul.expense_id === params.expense_id
   );
@@ -96,13 +96,13 @@ const ExpenseForm = (props) => {
           //   onChange={onGenderChange}
           allowClear
         >
-          <Option key="category_1" value="category 1">
+          <Option key="food" value="Food">
             category 1
           </Option>
-          <Option key="category_2" value="category 2">
+          <Option key="travel" value="Travel">
             category 2
           </Option>
-          <Option key="category_3" value="category 3">
+          <Option key="entertainment" value="Entertainment">
             category 3
           </Option>
         </Select>
