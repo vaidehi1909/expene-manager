@@ -96,15 +96,15 @@ const ExpenseForm = (props) => {
           //   onChange={onGenderChange}
           allowClear
         >
-          <Option key="food" value="Food">
+          <Select.Option key="food" value="Food">
             Food
-          </Option>
-          <Option key="travel" value="Travel">
+          </Select.Option>
+          <Select.Option key="travel" value="Travel">
             Travel
-          </Option>
-          <Option key="entertainment" value="Entertainment">
+          </Select.Option>
+          <Select.Option key="entertainment" value="Entertainment">
             Entertainment
-          </Option>
+          </Select.Option>
         </Select>
       </Form.Item>
 
