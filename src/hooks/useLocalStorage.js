@@ -22,5 +22,3 @@ export default useLocalStorage = (keyName, initialValue) => {
 
   return [value, setValue];
 };
-
-// const [state, setState] = useLocalStorage(user_id, [])

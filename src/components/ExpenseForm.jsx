@@ -97,13 +97,13 @@ const ExpenseForm = (props) => {
           allowClear
         >
           <Option key="food" value="Food">
-            category 1
+            Food
           </Option>
           <Option key="travel" value="Travel">
-            category 2
+            Travel
           </Option>
           <Option key="entertainment" value="Entertainment">
-            category 3
+            Entertainment
           </Option>
         </Select>
       </Form.Item>
