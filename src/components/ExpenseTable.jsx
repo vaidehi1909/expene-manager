@@ -1,7 +1,15 @@
 import React, { useContext } from "react";
 import ExpenseContext from "./ExpenseContext";
 import moment from "moment";
-import { Table, Space, Divider, DatePicker, Button, InputNumber } from "antd";
+import {
+  Table,
+  Space,
+  Divider,
+  DatePicker,
+  Button,
+  InputNumber,
+  Select,
+} from "antd";
 import { getUserId } from "./helper";
 import {
   EditOutlined,
@@ -34,7 +42,65 @@ const ExpenseTable = (props) => {
       title: "Category",
       dataIndex: "category",
       key: "category",
+      filterDropdown: ({
+        setSelectedKeys,
+        selectedKeys,
+        confirm,
+        clearFilters,
+      }) => (
+        <div style={{ padding: 8 }}>
+          <Space>
+            <Select
+              mode="multiple"
+              allowClear
+              style={{
+                width: "100%",
+              }}
+              placeholder="Please select"
+              onChange={(e) => {
+                setSelectedKeys([e]);
+              }}
+            >
+              <Select.Option key="food" value="Food">
+                Food
+              </Select.Option>
+              <Select.Option key="travel" value="Travel">
+                Travel
+              </Select.Option>
+              <Select.Option key="entertainment" value="Entertainment">
+                Entertainment
+              </Select.Option>
+            </Select>
+          </Space>
+          <Space>
+            <Button
+              onClick={() => {
+                clearFilters();
+                confirm();
+              }}
+              size="small"
+              style={{ width: 90 }}
+            >
+              Reset
+            </Button>
+            <Button
+              type="link"
+              size="small"
+              onClick={() => {
+                confirm();
+              }}
+            >
+              Filter
+            </Button>
+          </Space>
+        </div>
+      ),
+
+      onFilter: (value, record) => {
+        return value.includes(record.category);
+      },
     },
+
     {
       title: "Amount",
       dataIndex: "amount",
