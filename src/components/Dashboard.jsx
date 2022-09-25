@@ -20,7 +20,11 @@ const Dashboard = () => {
 
   const search = (value) => {
     if (value === "") return setDataSource(userList);
-    setDataSource(userList.filter((ul) => ul.title.includes(value)));
+    setDataSource(
+      userList.filter((ul) =>
+        ul.title.toLowerCase().includes(value.toLowerCase())
+      )
+    );
   };
   return (
     <>
